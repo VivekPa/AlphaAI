@@ -15,11 +15,11 @@ class DataProcessing:
         #print(df[cols[2]].head())
         for i in cols[1:]:
             print(i)
-            df[f'{i}_ret1'] = np.log(df[i]/df[i].shift(1))
+            df[f'{i}_ret1'] = np.log(df[i][1]/df[i].shift(1)[1])
             #df[f'{i}_autocorr1'] = df[f'{i}_ret1'].corr(df[f'{i}_ret1'].shift(1))
             for j in range(2, window, 2):
                 #print((df[i]/df[i].shift(1)).head())
-                df[f'{i}_ret{j}'] = np.log(df[i]/df[i].shift(j))
+                df[f'{i}_ret{j}'] = np.log(df[i][1]/df[i].shift(j)[1])
                 df[f'{i}_mavg{j}'] = df[f'{i}_ret1'].rolling(j).mean()
                 df[f'{i}_ewm{j}'] = df[f'{i}_ret1'].ewm(span=j).mean()
                 #df[f'{i}_autocorr{j}'] = df[f'{i}_ret1'].corr(df[f'{i}_ret1'].shift(j))
@@ -28,7 +28,7 @@ class DataProcessing:
                     df[f'{i}_vol{j}'] = df[f'{i}_ret1'].rolling(j).std()
                     df[f'{i}_ewmvol{j}'] = df[f'{i}_ret1'].ewm(span=j).std()
                     break
-        df['liq'] = df['close']*df['volume']
+        df['liq'] = df['close'][1]*df['volume'][1]
         df['liq_ret1'] = df['liq']/df['liq'].shift(1)
         #df['liq_autocorr1'] = df['liq'].corr(df['liq'].shift(1))
         for j in range(2, window, 2):

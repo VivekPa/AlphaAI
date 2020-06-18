@@ -28,7 +28,7 @@ class BaseBars:
             full_bars.columns = cols
             #print(type(list_bars[2][3]))
             #list_bars.columns = cols
-            full_bars.to_csv(self.output_path, header=header, index=False, mode='a')
+            full_bars.to_csv(self.output_path, header=header, index=False)
             header = False
 
     
